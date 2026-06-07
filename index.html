@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sepidar Inventory Delivery</title>
+<link rel="manifest" href="manifest.json">
+<script src="./libs/xlsx.full.min.js"></script>
+<style>
+body{font-family:tahoma;background:#f5f5f5;padding:10px}
+.card{background:#fff;padding:12px;border-radius:8px;margin-bottom:10px}
+input,button{width:100%;padding:8px;margin:4px 0}
+table{width:100%;border-collapse:collapse}
+td,th{border:1px solid #ccc;padding:5px}
+</style>
+</head>
+<body>
+<div class="card">
+<input id="invDate" placeholder="1405/03/15">
+<input id="sourceWarehouse" value="2" placeholder="انبار مبدا">
+<input id="destWarehouse" value="3" placeholder="انبار مقصد">
+<input type="file" id="excelInput" accept=".xlsx">
+</div>
+<div class="card">
+<input id="searchInput" placeholder="جستجوی کالا">
+<div id="searchResults"></div>
+<input id="itemCode" readonly placeholder="کد کالا">
+<input id="itemName" readonly placeholder="نام کالا">
+<input id="qty" type="number" placeholder="مقدار">
+<button onclick="saveCount()">ثبت</button>
+</div>
+<div class="card">
+<button onclick="exportExcel()">خروجی سپیدار</button>
+</div>
+<table id="list"></table>
+<script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js');}
+</script>
+</body></html>
