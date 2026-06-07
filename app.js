@@ -1,4 +1,4 @@
-
+let editIndex = null;
 let masterItems=[];
 let counts=JSON.parse(localStorage.getItem('counts')||'[]');
 
@@ -29,20 +29,83 @@ searchInput.addEventListener('input',()=>{
 });
 
 function saveCount(){
- if(!itemCode.value || Number(qty.value)<=0){alert('اطلاعات ناقص است');return;}
- counts.push({code:itemCode.value,name:itemName.value,qty:qty.value});
- localStorage.setItem('counts',JSON.stringify(counts));
+
+ if(!itemCode.value){
+   alert('کالا انتخاب نشده');
+   return;
+ }
+
+ if(Number(qty.value)<=0){
+   alert('مقدار معتبر وارد کنید');
+   return;
+ }
+
+ if(editIndex !== null){
+
+   counts[editIndex].qty = qty.value;
+
+   editIndex = null;
+
+ }else{
+
+   counts.push({
+      code:itemCode.value,
+      name:itemName.value,
+      qty:qty.value
+   });
+
+ }
+
+ localStorage.setItem(
+   'counts',
+   JSON.stringify(counts)
+ );
+
  render();
+
  qty.value='';
-}
 
+}
 function render(){
- list.innerHTML='<tr><th>کد</th><th>نام</th><th>مقدار</th></tr>';
- counts.forEach(x=>{
-  list.innerHTML+=`<tr><td>${x.code}</td><td>${x.name}</td><td>${x.qty}</td></tr>`;
- });
-}
 
+ list.innerHTML=`
+ <tr>
+   <th>کد کالا</th>
+   <th>نام کالا</th>
+   <th>مقدار</th>
+   <th>عملیات</th>
+ </tr>
+ `;
+
+ counts.forEach((x,i)=>{
+
+   list.innerHTML += `
+   <tr>
+
+     <td>${x.code}</td>
+
+     <td>${x.name}</td>
+
+     <td>${x.qty}</td>
+
+     <td>
+
+       <button onclick="editRow(${i})">
+         ✏️
+       </button>
+
+       <button onclick="deleteRow(${i})">
+         ❌
+       </button>
+
+     </td>
+
+   </tr>
+   `;
+
+ });
+
+}
 function exportExcel(){
  const rows=counts.map(x=>({
  'نوع قلم':'InventoryDeliveryItem',
@@ -61,3 +124,33 @@ function exportExcel(){
  XLSX.writeFile(wb,'InventoryDelivery.xlsx');
 }
 render();
+function editRow(i){
+
+ const row = counts[i];
+
+ itemCode.value = row.code;
+
+ itemName.value = row.name;
+
+ qty.value = row.qty;
+
+ editIndex = i;
+
+}
+
+function deleteRow(i){
+
+ if(confirm('رکورد حذف شود؟')){
+
+   counts.splice(i,1);
+
+   localStorage.setItem(
+      'counts',
+      JSON.stringify(counts)
+   );
+
+   render();
+
+ }
+
+}
