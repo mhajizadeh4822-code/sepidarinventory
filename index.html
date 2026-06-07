@@ -17,8 +17,10 @@ td,th{border:1px solid #ccc;padding:5px}
 <body>
 <div class="card">
 <input id="invDate" placeholder="1405/03/15">
-<input id="sourceWarehouse" value="2" placeholder="انبار مبدا">
-<input id="destWarehouse" value="3" placeholder="انبار مقصد">
+<label>شماره انبار مبدا</label>
+<input id="sourceWarehouse" value="2">
+<label>شماره انبار مقصد</label>
+<input id="destWarehouse" value="3">
 <input type="file" id="excelInput" accept=".xlsx">
 </div>
 <div class="card">
@@ -38,3 +40,4 @@ td,th{border:1px solid #ccc;padding:5px}
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js');}
 </script>
 </body></html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
